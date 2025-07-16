@@ -1,3 +1,4 @@
+
 "use client"
 
 import type React from "react"
@@ -11,7 +12,6 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { useRef } from "react"
-import html2canvas from "html2canvas-pro"
 import {
   AlertTriangle,
   CheckCircle,
@@ -539,59 +539,6 @@ export default function N8nAnalyzer() {
         nodeName,
       })
     }
-  }
-
-  const checkForHardcodedSecrets = (obj: any, securityIssues: SecurityIssue[], nodeId: string, nodeName: string) => {
-    const sensitiveKeys = ["password", "token", "key", "secret", "apikey", "api_key", "auth"]
-
-    const traverse = (current: any, path = "") => {
-      if (typeof current === "object" && current !== null) {
-        Object.keys(current).forEach((key) => {
-          const fullPath = path ? `${path}.${key}` : key
-          const lowerKey = key.toLowerCase()
-
-          if (sensitiveKeys.some((sensitive) => lowerKey.includes(sensitive))) {
-            if (typeof current[key] === "string" && current[key].length > 0) {
-              securityIssues.push({
-                severity: "high",
-                type: "Hardcoded Secret",
-                message: `Potential hardcoded secret found in parameter '${fullPath}'`,
-                nodeId,
-                nodeName,
-              })
-            }
-          }
-
-          traverse(current[key], fullPath)
-        })
-      }
-    }
-
-    traverse(obj)
-  }
-
-  const checkForSuspiciousUrls = (obj: any, securityIssues: SecurityIssue[], nodeId: string, nodeName: string) => {
-    const suspiciousDomains = ["bit.ly", "tinyurl.com", "pastebin.com", "hastebin.com"]
-
-    const traverse = (current: any) => {
-      if (typeof current === "string") {
-        suspiciousDomains.forEach((domain) => {
-          if (current.includes(domain)) {
-            securityIssues.push({
-              severity: "medium",
-              type: "Suspicious URL",
-              message: `Suspicious URL detected: ${domain}`,
-              nodeId,
-              nodeName,
-            })
-          }
-        })
-      } else if (typeof current === "object" && current !== null) {
-        Object.values(current).forEach(traverse)
-      }
-    }
-
-    traverse(obj)
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
