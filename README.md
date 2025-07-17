@@ -25,7 +25,6 @@ Try it online: [https://n8n-scanner.vercel.app/](https://n8n-scanner.vercel.app/
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Security Frameworks](#security-frameworks)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Getting Started
